@@ -44,7 +44,7 @@ def create(request):
         que.pub_date = timezone.now()
         que.save()
         question = Question.objects.get(pk=que.pk)
-        if question != None:
+        if question is not None:
             question.choice_set.create(choice_text=request.POST['option1']).save()
             question.choice_set.create(choice_text=request.POST['option2']).save()
             question.choice_set.create(choice_text=request.POST['option3']).save()
