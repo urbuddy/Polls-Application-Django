@@ -1,10 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.utils import timezone
-
 from demo.models import Question, Choice
-from django.http import HttpResponseRedirect
-
+from django.views import generic
 
 # Create your views here.
 
@@ -15,14 +13,32 @@ def index(request):
     return render(request, "demo/index.html", context)
 
 
+class IndexView(generic.ListView):
+    template_name = "demo/index.html"
+    context_object_name = "latest_q_list"
+
+    def get_queryset(self):
+        return Question.objects.order_by("-pub_date")
+
+
 def details(request, question_id):
     q = get_object_or_404(Question, id=question_id)
     return render(request, "demo/details.html", {"question": q})
 
 
+class DetailView(generic.DetailView):
+    model = Question
+    template_name = "demo/details.html"
+
+
 def results(request, question_id):
     que = get_object_or_404(Question, id=question_id)
     return render(request, 'demo/results.html', {'question': que})
+
+
+class ResultView(generic.DetailView):
+    model = Question
+    template_name = "demo/results.html"
 
 
 def votes(request, question_id):
@@ -34,7 +50,7 @@ def votes(request, question_id):
     else:
         selected_choice.votes += 1
         selected_choice.save()
-        return HttpResponseRedirect(reverse('demo:results', args=(que.id,)))
+        return redirect(reverse('demo:results', args=(que.id,)))
 
 
 def create(request):
