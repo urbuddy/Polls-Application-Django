@@ -1,18 +1,20 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Result Page</title>
-</head>
-<body background="https://motionarray.imgix.net/preview-168738-46fYQmML5k-high_0004.jpg">
-<center>
-    <h1>{{ question.question_text }}</h1>
-    <ul>
-        {% for choice in question.choice_set.all %}
-                {{choice.choice_text}} -- {{choice.votes}} vote{{choice.votes|pluralize}}</br>
-        {% endfor %}
-    </ul>
-    <a href="{% url 'demo:details' question.id %}">Vote again?</a>
-</center>
-</body>
+    <head>
+        <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.jpg' %}" >
+        <meta charset="UTF-8">
+        <title>Result Page</title>
+    </head>
+    <body background="{% static 'images/background.jpg' %}">
+        <center>
+            <h1>{{ question.question_text }}</h1>
+            <ul>
+                {% for choice in question.choice_set.all %}
+                        {{choice.choice_text}} -- {{choice.votes}} vote{{choice.votes|pluralize}}</br>
+                {% endfor %}
+            </ul>
+            <a href="{% url 'demo:details' question.id %}">Vote again?</a>
+        </center>
+    </body>
 </html>
