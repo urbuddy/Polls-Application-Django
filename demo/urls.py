@@ -11,7 +11,7 @@ urlpatterns = [
     path("<int:pk>/", views.DetailView.as_view(), name="details"),
     path("<int:pk>/results/", views.ResultView.as_view(), name="results"),
 
-    path("/create", views.create, name="create"),
+    path("create", views.create, name="create"),
     path("<int:question_id>/votes/", views.votes, name="votes"),
 
 ]
